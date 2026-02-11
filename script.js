@@ -62,42 +62,62 @@ function createTypewriterEffect() {
     const terminalBody = document.querySelector('.terminal-body');
     let currentLineIndex = 0;
     let currentCharIndex = 0;
+    let startTime = Date.now();
+    let cursorVisible = true;
+    let lastCursorToggle = Date.now();
 
     const typewriter = setInterval(() => {
+        const elapsedTime = Date.now() - startTime;
+        
+        // Handle cursor blink (toggle every 500ms)
+        if (Date.now() - lastCursorToggle > 500) {
+            cursorVisible = !cursorVisible;
+            lastCursorToggle = Date.now();
+        }
+        
+        // Find which line should be typing based on elapsed time
+        let activeLineIndex = 0;
+        for (let i = 0; i < lines.length; i++) {
+            if (elapsedTime >= lines[i].delay) {
+                activeLineIndex = i;
+            } else {
+                break;
+            }
+        }
+
+        if (activeLineIndex > currentLineIndex) {
+            // Moving to next line
+            currentLineIndex = activeLineIndex;
+            currentCharIndex = 0;
+        }
+
         if (currentLineIndex >= lines.length) {
             clearInterval(typewriter);
+            renderTerminal(); // Render the final prompt
             return;
         }
 
         const line = lines[currentLineIndex];
-        const fullText = line.prefix + line.text;
+        const lineDelay = line.delay;
+        const lineShouldStartTime = startTime + lineDelay;
+        const lineElapsedTime = Date.now() - lineShouldStartTime;
+        const charsToShow = Math.floor(lineElapsedTime / 35);
 
-        if (currentCharIndex === 0) {
-            // Wait for line delay before starting
-            if (currentLineIndex > 0) {
-                const delay = line.delay - (lines[currentLineIndex - 1]?.delay || 0);
-                return;
-            }
-        }
-
-        currentCharIndex++;
+        currentCharIndex = charsToShow;
 
         // Render the terminal
         renderTerminal();
 
-        if (currentCharIndex > fullText.length) {
-            currentLineIndex++;
-            currentCharIndex = 0;
+        if (currentCharIndex > (line.prefix + line.text).length) {
+            currentCharIndex = (line.prefix + line.text).length;
         }
     }, 35);
 
     function renderTerminal() {
         const completedLines = lines.slice(0, currentLineIndex).map((line, i) => {
-            return `
-                <div class="terminal-line ${i === 0 ? 'command' : 'output' + (i === 1 ? ' name' : i === 3 ? ' location' : ' title')}">
-                    ${line.prefix}<span>${line.text}</span>
-                </div>
-            `;
+            return `<div class="terminal-line ${i === 0 ? 'command' : 'output' + (i === 1 ? ' name' : i === 3 ? ' location' : ' title')}">
+${line.prefix}<span>${line.text}</span>
+</div>`;
         }).join('');
 
         let currentLineHTML = '';
@@ -105,24 +125,21 @@ function createTypewriterEffect() {
             const line = lines[currentLineIndex];
             const fullText = line.prefix + line.text;
             const partialText = fullText.substring(0, currentCharIndex);
+            const cursorChar = cursorVisible ? '▋' : '&nbsp;';
             
             const className = currentLineIndex === 0 ? 'command' : 
                             currentLineIndex === 1 ? 'output name' : 
                             currentLineIndex === 3 ? 'output location' : 
                             'output title';
             
-            currentLineHTML = `
-                <div class="terminal-line ${className}">
-                    ${partialText}<span class="cursor">▋</span>
-                </div>
-            `;
+            currentLineHTML = `<div class="terminal-line ${className}">
+${partialText}<span class="cursor">${cursorChar}</span>
+</div>`;
         }
 
-        const promptHTML = currentLineIndex >= lines.length ? `
-            <div class="terminal-line command prompt">
-                $ <span class="cursor">▋</span>
-            </div>
-        ` : '';
+        const promptHTML = currentLineIndex >= lines.length ? `<div class="terminal-line command prompt">
+$ <span class="cursor">${cursorVisible ? '▋' : '&nbsp;'}</span>
+</div>` : '';
 
         terminalBody.innerHTML = completedLines + currentLineHTML + promptHTML;
     }
