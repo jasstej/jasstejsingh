@@ -1,6 +1,14 @@
-# Portfolio - Static HTML/CSS/JS Version
+# 🔐 Jasstej Singh - Cybersecurity Portfolio
 
-A pure HTML, CSS, and JavaScript version of the cybersecurity portfolio, ready to deploy on GitHub Pages.
+> **Live Portfolio**: [jasstej.github.io/jasstejsingh](https://jasstej.github.io/jasstejsingh/)
+
+Cybersecurity researcher & developer focused on **network security**, **vulnerability research**, and **security automation**. This repository contains my professional portfolio showcasing 9+ cybersecurity projects and research work.
+
+---
+
+## 📋 About This Repository
+
+This is a **pure HTML/CSS/JS portfolio** deployed on GitHub Pages - no build process required.
 
 ## Features
 
