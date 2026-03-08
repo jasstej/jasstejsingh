@@ -999,6 +999,17 @@ body {
     grid-column: 1 / -1;
     border-color: rgba(64, 196, 99, 0.3);
     background: linear-gradient(135deg, rgba(64, 196, 99, 0.06) 0%, var(--card) 60%);
+    position: relative;
+    cursor: pointer;
+}
+
+/* Stretch the link icon to cover the entire card */
+.project-card-featured .project-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: 0.5rem;
 }
 
 .project-card-featured:hover {
