@@ -1121,3 +1121,46 @@ body {
 .skill-card, .project-card, .cert-card, .highlight-card {
     opacity: 1;
 }
+
+/* =====================
+   HERO — STATS STRIP
+   ===================== */
+.hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.25rem;
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--primary);
+    border-radius: 0 0.5rem 0.5rem 0;
+    background-color: rgba(22, 27, 34, 0.6);
+    animation: fadeIn 0.8s ease 0.5s both;
+}
+
+.hero-stat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted-foreground);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.stat-bullet {
+    color: var(--primary);
+    font-size: 0.65rem;
+}
+
+/* =====================
+   HERO — BIGGER SOCIAL ICONS
+   ===================== */
+.social-icon {
+    width: 26px;
+    height: 26px;
+}
+
+.social-icon svg {
+    width: 26px;
+    height: 26px;
+}
