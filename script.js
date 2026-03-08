@@ -34,6 +34,30 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 // =====================
+// WRITINGS DROPDOWN
+// =====================
+
+const writingsDropdown = document.getElementById('writingsDropdown');
+const writingsBtn = document.getElementById('writingsDropdownBtn');
+
+if (writingsDropdown && writingsBtn) {
+    writingsBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        writingsDropdown.classList.toggle('open');
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', () => {
+        writingsDropdown.classList.remove('open');
+    });
+
+    // Close when pressing Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') writingsDropdown.classList.remove('open');
+    });
+}
+
+// =====================
 // ACTIVE NAV LINK TRACKING
 // =====================
 

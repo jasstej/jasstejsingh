@@ -1175,3 +1175,124 @@ body {
     width: 26px;
     height: 26px;
 }
+
+/* =====================
+   NAV — WRITINGS DROPDOWN
+   ===================== */
+.nav-dropdown {
+    position: relative;
+}
+
+.nav-dropdown-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+    cursor: pointer;
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.nav-dropdown-btn:hover,
+.nav-dropdown.open .nav-dropdown-btn {
+    color: var(--primary);
+    text-shadow: 0 0 10px rgba(64, 196, 99, 0.3);
+}
+
+.dropdown-chevron {
+    font-size: 0.6rem;
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+.nav-dropdown.open .dropdown-chevron {
+    transform: rotate(180deg);
+}
+
+/* Dropdown panel */
+.nav-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 170px;
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--primary);
+    border-radius: 0 0 0.5rem 0.5rem;
+    padding: 0.4rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown.open .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav-dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted-foreground);
+    text-decoration: none;
+    border-radius: 0.25rem;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.nav-dropdown-item:hover {
+    background-color: rgba(64, 196, 99, 0.08);
+    color: var(--primary);
+}
+
+/* "soon" badge */
+.nav-soon {
+    font-size: 0.55rem;
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.2rem;
+    background-color: rgba(64, 196, 99, 0.08);
+    border: 1px solid rgba(64, 196, 99, 0.2);
+    color: var(--primary);
+    font-family: 'JetBrains Mono', monospace;
+    flex-shrink: 0;
+}
+
+/* =====================
+   NAV — MOBILE WRITINGS GROUP
+   ===================== */
+.nav-mobile-group {
+    border-top: 1px solid var(--border);
+    padding-top: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.nav-mobile-group-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0 0.5rem 0;
+    opacity: 0.7;
+}
+
+.nav-link-sub {
+    padding-left: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
