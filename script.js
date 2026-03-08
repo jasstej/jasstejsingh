@@ -19,33 +19,42 @@ document.querySelectorAll('.nav-link').forEach(link => {
     });
 });
 
-// Update active nav link on scroll
-function updateActiveNavLink() {
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
+// =====================
+// NAVBAR SCROLL EFFECT
+// =====================
 
-    window.addEventListener('scroll', () => {
-        let current = '';
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            
-            if (window.pageYOffset >= sectionTop - 200) {
-                current = section.getAttribute('id');
-            }
-        });
+const navbar = document.querySelector('.navbar');
 
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+}, { passive: true });
+
+// =====================
+// ACTIVE NAV LINK TRACKING
+// =====================
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links-desktop .nav-link[href^="#"]');
+
+const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            navLinks.forEach(link => link.classList.remove('active'));
+            const id = entry.target.getAttribute('id');
+            const activeLink = document.querySelector(`.nav-links-desktop .nav-link[href="#${id}"]`);
+            if (activeLink) activeLink.classList.add('active');
+        }
     });
-}
+}, {
+    rootMargin: '-40% 0px -55% 0px',
+    threshold: 0
+});
 
-updateActiveNavLink();
+sections.forEach(section => navObserver.observe(section));
 
 // =====================
 // TYPEWRITER EFFECT
@@ -68,14 +77,12 @@ function createTypewriterEffect() {
 
     const typewriter = setInterval(() => {
         const elapsedTime = Date.now() - startTime;
-        
-        // Handle cursor blink (toggle every 500ms)
+
         if (Date.now() - lastCursorToggle > 500) {
             cursorVisible = !cursorVisible;
             lastCursorToggle = Date.now();
         }
-        
-        // Find which line should be typing based on elapsed time
+
         let activeLineIndex = 0;
         for (let i = 0; i < lines.length; i++) {
             if (elapsedTime >= lines[i].delay) {
@@ -86,38 +93,33 @@ function createTypewriterEffect() {
         }
 
         if (activeLineIndex > currentLineIndex) {
-            // Moving to next line
             currentLineIndex = activeLineIndex;
             currentCharIndex = 0;
         }
 
         if (currentLineIndex >= lines.length) {
             clearInterval(typewriter);
-            renderTerminal(); // Render the final prompt
+            renderTerminal();
             return;
         }
 
         const line = lines[currentLineIndex];
-        const lineDelay = line.delay;
-        const lineShouldStartTime = startTime + lineDelay;
+        const lineShouldStartTime = startTime + line.delay;
         const lineElapsedTime = Date.now() - lineShouldStartTime;
         const charsToShow = Math.floor(lineElapsedTime / 35);
 
-        currentCharIndex = charsToShow;
+        currentCharIndex = Math.min(charsToShow, (line.prefix + line.text).length);
 
-        // Render the terminal
         renderTerminal();
-
-        if (currentCharIndex > (line.prefix + line.text).length) {
-            currentCharIndex = (line.prefix + line.text).length;
-        }
     }, 35);
 
     function renderTerminal() {
         const completedLines = lines.slice(0, currentLineIndex).map((line, i) => {
-            return `<div class="terminal-line ${i === 0 ? 'command' : 'output' + (i === 1 ? ' name' : i === 3 ? ' location' : ' title')}">
-${line.prefix}<span>${line.text}</span>
-</div>`;
+            const cls = i === 0 ? 'command'
+                      : i === 1 ? 'output name'
+                      : i === 3 ? 'output location'
+                      : 'output title';
+            return `<div class="terminal-line ${cls}">${line.prefix}<span>${line.text}</span></div>`;
         }).join('');
 
         let currentLineHTML = '';
@@ -126,20 +128,16 @@ ${line.prefix}<span>${line.text}</span>
             const fullText = line.prefix + line.text;
             const partialText = fullText.substring(0, currentCharIndex);
             const cursorChar = cursorVisible ? '▋' : '&nbsp;';
-            
-            const className = currentLineIndex === 0 ? 'command' : 
-                            currentLineIndex === 1 ? 'output name' : 
-                            currentLineIndex === 3 ? 'output location' : 
-                            'output title';
-            
-            currentLineHTML = `<div class="terminal-line ${className}">
-${partialText}<span class="cursor">${cursorChar}</span>
-</div>`;
+            const cls = currentLineIndex === 0 ? 'command'
+                      : currentLineIndex === 1 ? 'output name'
+                      : currentLineIndex === 3 ? 'output location'
+                      : 'output title';
+            currentLineHTML = `<div class="terminal-line ${cls}">${partialText}<span class="cursor">${cursorChar}</span></div>`;
         }
 
-        const promptHTML = currentLineIndex >= lines.length ? `<div class="terminal-line command prompt">
-$ <span class="cursor">${cursorVisible ? '▋' : '&nbsp;'}</span>
-</div>` : '';
+        const promptHTML = currentLineIndex >= lines.length
+            ? `<div class="terminal-line command prompt">$ <span class="cursor">${cursorVisible ? '▋' : '&nbsp;'}</span></div>`
+            : '';
 
         terminalBody.innerHTML = completedLines + currentLineHTML + promptHTML;
     }
@@ -147,10 +145,52 @@ $ <span class="cursor">${cursorVisible ? '▋' : '&nbsp;'}</span>
     renderTerminal();
 }
 
-// Delay typewriter effect until page is loaded
 window.addEventListener('load', () => {
     setTimeout(createTypewriterEffect, 100);
 });
+
+// =====================
+// SCROLL ANIMATIONS
+// =====================
+
+const animatedEls = document.querySelectorAll(
+    '.skill-card, .project-card, .cert-card, .highlight-card, .timeline-item'
+);
+
+// Add scroll-hidden and stagger delays per grid group
+const staggerGroups = [
+    '.projects-grid',
+    '.skills-grid',
+    '.highlights-grid',
+    '.certifications-grid',
+    '.experience-timeline'
+];
+
+staggerGroups.forEach(selector => {
+    const group = document.querySelector(selector);
+    if (!group) return;
+    const children = group.querySelectorAll(':scope > *');
+    children.forEach((el, i) => {
+        el.style.transitionDelay = `${i * 0.07}s`;
+    });
+});
+
+animatedEls.forEach(el => el.classList.add('scroll-hidden'));
+
+const scrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.remove('scroll-hidden');
+            entry.target.classList.add('scroll-visible');
+            scrollObserver.unobserve(entry.target);
+        }
+    });
+}, {
+    threshold: 0.08,
+    rootMargin: '0px 0px -40px 0px'
+});
+
+animatedEls.forEach(el => scrollObserver.observe(el));
 
 // =====================
 // CONTACT FORM
@@ -162,18 +202,12 @@ contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const name = document.getElementById('nameInput').value;
-    const email = document.getElementById('emailInput').value;
     const message = document.getElementById('messageInput').value;
-
-    // Create mailto link
     const subject = `Contact from ${name}`;
     const body = encodeURIComponent(message);
-    const mailtoLink = `mailto:jasstej@example.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+    const mailtoLink = `mailto:sjasstej@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
 
-    // Open mailto
     window.location.href = mailtoLink;
-
-    // Reset form
     contactForm.reset();
 });
 
@@ -184,70 +218,14 @@ contactForm.addEventListener('submit', (e) => {
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
-        
-        // Skip if it's just "#"
         if (href === '#') {
             e.preventDefault();
             return;
         }
-
         const target = document.querySelector(href);
         if (target) {
             e.preventDefault();
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     });
 });
-
-// =====================
-// SCROLL ANIMATIONS
-// =====================
-
-function observeElements() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.skill-card, .project-card, .cert-card, .experience-timeline, .highlight-card').forEach(el => {
-        observer.observe(el);
-    });
-}
-
-window.addEventListener('load', observeElements);
-
-// =====================
-// ADD FADE IN UP ANIMATION
-// =====================
-
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    .skill-card, .project-card, .cert-card, .experience-timeline, .highlight-card {
-        opacity: 0;
-    }
-`;
-document.head.appendChild(style);

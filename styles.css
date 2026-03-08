@@ -909,3 +909,215 @@ section {
         font-size: 1rem;
     }
 }
+
+/* =====================
+   OVERHAUL — VISUAL EFFECTS
+   ===================== */
+
+/* Dot-grid background */
+body {
+    background-image: radial-gradient(circle, rgba(64, 196, 99, 0.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+}
+
+/* Terminal box — pulse glow + scanlines */
+.terminal-box {
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease, terminalGlow 5s ease-in-out 0.6s infinite;
+}
+
+.terminal-box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0, 0, 0, 0.04) 3px,
+        rgba(0, 0, 0, 0.04) 4px
+    );
+    pointer-events: none;
+    border-radius: 0.5rem;
+}
+
+@keyframes terminalGlow {
+    0%, 100% { box-shadow: 0 0 10px rgba(64, 196, 99, 0.08); }
+    50%       { box-shadow: 0 0 30px rgba(64, 196, 99, 0.18), 0 0 60px rgba(64, 196, 99, 0.05); }
+}
+
+/* Hero content wider */
+.hero-content {
+    max-width: 52rem;
+}
+
+.terminal-line.output.name {
+    font-size: 1.25rem;
+}
+
+/* =====================
+   OVERHAUL — GRADIENT SECTION LABELS
+   ===================== */
+.section-label {
+    display: inline-block;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+}
+
+/* Section container wider */
+.section-container {
+    max-width: 64rem;
+}
+
+/* =====================
+   OVERHAUL — CARD HOVER LIFT
+   ===================== */
+.project-card,
+.skill-card,
+.highlight-card,
+.cert-card {
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover,
+.skill-card:hover,
+.highlight-card:hover,
+.cert-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(64, 196, 99, 0.1);
+    border-color: rgba(64, 196, 99, 0.4);
+}
+
+/* =====================
+   OVERHAUL — FEATURED PROJECT CARD
+   ===================== */
+.project-card-featured {
+    grid-column: 1 / -1;
+    border-color: rgba(64, 196, 99, 0.3);
+    background: linear-gradient(135deg, rgba(64, 196, 99, 0.06) 0%, var(--card) 60%);
+}
+
+.project-card-featured:hover {
+    border-color: rgba(64, 196, 99, 0.6);
+    box-shadow: 0 8px 40px rgba(64, 196, 99, 0.15);
+}
+
+.project-card-featured .project-title {
+    font-size: 1rem;
+    color: var(--primary);
+}
+
+/* =====================
+   OVERHAUL — 2-COLUMN PROJECTS GRID
+   ===================== */
+@media (min-width: 768px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* =====================
+   OVERHAUL — SKILL CARD COLORED TOP BORDERS
+   ===================== */
+.skill-card {
+    border-top: 2px solid transparent;
+}
+
+.skills-grid .skill-card:nth-child(1) { border-top-color: var(--primary); }
+.skills-grid .skill-card:nth-child(2) { border-top-color: var(--secondary); }
+.skills-grid .skill-card:nth-child(3) { border-top-color: #f0883e; }
+.skills-grid .skill-card:nth-child(4) { border-top-color: #bc8cff; }
+
+/* =====================
+   OVERHAUL — CERT CARDS HORIZONTAL
+   ===================== */
+.cert-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: left;
+    border-left: 3px solid var(--primary);
+    border-radius: 0 0.5rem 0.5rem 0;
+    padding: 1.25rem 1.5rem;
+}
+
+.certifications-grid {
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+    .certifications-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+.cert-icon {
+    font-size: 1.75rem;
+    flex-shrink: 0;
+}
+
+.cert-card:nth-child(2) { border-left-color: #f0883e; }
+.cert-card:nth-child(3) { border-left-color: var(--secondary); }
+
+/* =====================
+   OVERHAUL — TAG COLOR ACCENTS
+   ===================== */
+.tag {
+    background-color: rgba(64, 196, 99, 0.07);
+    border-color: rgba(64, 196, 99, 0.2);
+    color: rgba(64, 196, 99, 0.75);
+}
+
+/* =====================
+   OVERHAUL — SCROLL ANIMATIONS
+   ===================== */
+.scroll-hidden {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.scroll-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =====================
+   OVERHAUL — ACTIVE NAV LINK
+   ===================== */
+.nav-link {
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.nav-link.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    text-shadow: 0 0 10px rgba(64, 196, 99, 0.3);
+}
+
+/* =====================
+   OVERHAUL — NAVBAR SCROLLED
+   ===================== */
+.navbar.scrolled {
+    background-color: rgba(15, 17, 23, 0.97);
+    border-bottom-color: rgba(64, 196, 99, 0.15);
+    box-shadow: 0 1px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* =====================
+   OVERHAUL — SECTION HEADER ANIMATION TARGET
+   ===================== */
+.section-header .section-label,
+.section-header .section-title {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Remove conflicting opacity:0 from old JS injection */
+.skill-card, .project-card, .cert-card, .highlight-card {
+    opacity: 1;
+}
