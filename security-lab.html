@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Lab — Jasstej Singh</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Page-specific overrides */
+        .lab-hero {
+            padding: 8rem 1.5rem 4rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .lab-hero .terminal-box {
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .lab-section {
+            padding: 3rem 1.5rem 6rem;
+        }
+
+        .lab-intro {
+            max-width: 680px;
+            color: var(--muted-foreground);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin: 0.5rem 0 2.5rem;
+        }
+
+        .lab-intro a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .lab-intro a:hover {
+            text-decoration: underline;
+        }
+
+        .lab-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--muted-foreground);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            text-decoration: none;
+            margin-bottom: 2.5rem;
+            transition: color 0.2s;
+        }
+
+        .lab-back:hover {
+            color: var(--primary);
+        }
+
+        .project-category {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-category-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .project-category-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--muted-foreground);
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .lab-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .lab-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .lab-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .lab-stat-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            color: var(--muted-foreground);
+        }
+
+        .project-card .project-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: rgba(64, 196, 99, 0.08);
+            border: 1px solid rgba(64, 196, 99, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .project-card:hover .project-icon {
+            background: rgba(64, 196, 99, 0.14);
+            border-color: rgba(64, 196, 99, 0.3);
+        }
+
+        .project-header-inner {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .project-header-text {
+            flex: 1;
+        }
+
+        .project-card .project-header {
+            align-items: flex-start;
+        }
+
+        .project-has-demo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--primary);
+            background: rgba(64, 196, 99, 0.08);
+            border: 1px solid rgba(64, 196, 99, 0.2);
+            border-radius: 4px;
+            padding: 0.15rem 0.45rem;
+            margin-top: 0.3rem;
+        }
+
+        @media (max-width: 480px) {
+            .lab-stats {
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="./index.html" class="navbar-logo" style="text-decoration:none;">~/jasstej</a>
+
+            <!-- Desktop Menu -->
+            <div class="nav-links-desktop">
+                <a href="./index.html#about" class="nav-link">About</a>
+                <a href="./index.html#skills" class="nav-link">Skills</a>
+                <a href="./index.html#experience" class="nav-link">Experience</a>
+                <a href="./index.html#projects" class="nav-link">Projects</a>
+                <a href="./security-lab.html" class="nav-link active">Security Lab</a>
+                <a href="./index.html#certifications" class="nav-link">Certifications</a>
+                <div class="nav-dropdown" id="writingsDropdown">
+                    <button class="nav-link nav-dropdown-btn" id="writingsDropdownBtn">
+                        Writings <span class="dropdown-chevron">▾</span>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a href="#" class="nav-dropdown-item">Blog <span class="nav-soon">soon</span></a>
+                        <a href="#" class="nav-dropdown-item">Writeups <span class="nav-soon">soon</span></a>
+                        <a href="#" class="nav-dropdown-item">Walkthroughs <span class="nav-soon">soon</span></a>
+                    </div>
+                </div>
+                <a href="./index.html#contact" class="nav-link">Contact</a>
+                <a href="https://tools.jasstej.tech" class="nav-link">Tools</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="nav-links-mobile" id="mobileMenu">
+            <a href="./index.html#about" class="nav-link">About</a>
+            <a href="./index.html#skills" class="nav-link">Skills</a>
+            <a href="./index.html#experience" class="nav-link">Experience</a>
+            <a href="./index.html#projects" class="nav-link">Projects</a>
+            <a href="./security-lab.html" class="nav-link active">Security Lab</a>
+            <a href="./index.html#certifications" class="nav-link">Certifications</a>
+            <div class="nav-mobile-group">
+                <div class="nav-mobile-group-label">Writings</div>
+                <a href="#" class="nav-link nav-link-sub">Blog <span class="nav-soon">soon</span></a>
+                <a href="#" class="nav-link nav-link-sub">Writeups <span class="nav-soon">soon</span></a>
+                <a href="#" class="nav-link nav-link-sub">Walkthroughs <span class="nav-soon">soon</span></a>
+            </div>
+            <a href="./index.html#contact" class="nav-link">Contact</a>
+            <a href="https://tools.jasstej.tech" class="nav-link">Tools</a>
+        </div>
+    </nav>
+
+    <!-- Terminal Hero -->
+    <div class="lab-hero">
+        <div class="terminal-box">
+            <div class="terminal-header">
+                <div class="terminal-button red"></div>
+                <div class="terminal-button yellow"></div>
+                <div class="terminal-button green"></div>
+                <span class="terminal-title">~/security-lab</span>
+            </div>
+            <div class="terminal-body">
+                <div class="terminal-line">
+                    <span class="terminal-prompt">ghost@jasstej</span>
+                    <span class="terminal-separator">:</span>
+                    <span class="terminal-path">~/security-lab</span>
+                    <span class="terminal-dollar">$</span>
+                    <span class="terminal-command"> ls -1</span>
+                </div>
+                <div class="terminal-line terminal-output">network-recon/</div>
+                <div class="terminal-line terminal-output">deception-defense/</div>
+                <div class="terminal-line terminal-output">hids/</div>
+                <div class="terminal-line terminal-output">redteam-toolkit/</div>
+                <div class="terminal-line terminal-output">cloud-scanner/</div>
+                <div class="terminal-line terminal-output">malware-analysis/</div>
+                <div class="terminal-line terminal-output">anomaly-detection/</div>
+                <div class="terminal-line terminal-output">dfir-toolkit/</div>
+                <div class="terminal-line terminal-output">soar-lite/</div>
+                <div class="terminal-line terminal-output">cyber-defense-sim/</div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">ghost@jasstej</span>
+                    <span class="terminal-separator">:</span>
+                    <span class="terminal-path">~/security-lab</span>
+                    <span class="terminal-dollar">$</span>
+                    <span class="terminal-command terminal-cursor"> _</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Section -->
+    <section class="lab-section">
+        <div class="section-container">
+
+            <a href="./index.html" class="lab-back">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                back to portfolio
+            </a>
+
+            <div class="section-header">
+                <h2 class="section-label">// security-lab</h2>
+                <h3 class="section-title">Security Lab</h3>
+            </div>
+
+            <p class="lab-intro">
+                10 end-to-end security projects — each ships a Python CLI tool and a live browser dashboard.
+                Covers the full spectrum from offensive recon to defensive AI, forensics, and enterprise simulation.
+                All tools are hosted at <a href="https://tools.jasstej.tech" target="_blank" rel="noopener noreferrer">tools.jasstej.tech</a>.
+            </p>
+
+            <div class="lab-stats">
+                <div class="lab-stat">
+                    <span class="lab-stat-value">10</span>
+                    <span class="lab-stat-label">projects</span>
+                </div>
+                <div class="lab-stat">
+                    <span class="lab-stat-value">20+</span>
+                    <span class="lab-stat-label">Python modules</span>
+                </div>
+                <div class="lab-stat">
+                    <span class="lab-stat-value">10</span>
+                    <span class="lab-stat-label">browser dashboards</span>
+                </div>
+                <div class="lab-stat">
+                    <span class="lab-stat-value">5</span>
+                    <span class="lab-stat-label">security domains</span>
+                </div>
+            </div>
+
+            <!-- Offensive / Recon -->
+            <div class="project-category">
+                <span class="project-category-label">offensive &amp; recon</span>
+                <div class="project-category-line"></div>
+            </div>
+
+            <div class="projects-grid" style="margin-bottom: 3rem;">
+
+                <div class="project-card scroll-hidden">
+                    <div class="project-header">
+                        <div class="project-header-inner">
+                            <div class="project-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <circle cx="12" cy="12" r="4"></circle>
+                                    <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line>
+                                    <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line>
+                                    <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"></line>
+                                    <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"></line>
+                                </svg>
+                            </div>
+                            <div class="project-header-text">
+                                <h4 class="project-title">Network Recon &amp; Attack Surface Mapper</h4>
+                            </div>
+                        </div>
+                        <a href="https://tools.jasstej.tech/network-recon/" target="_blank" rel="noopener noreferrer" class="project-link" title="Open tool">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-description">TCP connect scanner with banner grabbing, subdomain enumeration against a 20-entry wordlist, OS fingerprinting, and high-risk port flagging. Generates JSON and HTML risk reports.</p>
+                    <p class="project-approach"><span class="approach-label">includes:</span> ThreadPoolExecutor port scanner, 31-entry service map, subdomain brute-force, JSON + HTML report generator</p>
+                    <div class="project-tags">
+                        <span class="tag">recon</span>
+                        <span class="tag">port-scan</span>
+                        <span class="tag">osint</span>
+                        <span class="tag">network</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+
+                <div class="project-card scroll-hidden">
+                    <div class="project-header">
+                        <div class="project-header-inner">
+                            <div class="project-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="22" y1="12" x2="18" y2="12"></line>
+                                    <line x1="6" y1="12" x2="2" y2="12"></line>
+                                    <line x1="12" y1="6" x2="12" y2="2"></line>
+                                    <line x1="12" y1="22" x2="12" y2="18"></line>
+                                </svg>
+                            </div>
+                            <div class="project-header-text">
+                                <h4 class="project-title">Red Team Simulation Toolkit</h4>
+                            </div>
+                        </div>
+                        <a href="https://tools.jasstej.tech/redteam-toolkit/" target="_blank" rel="noopener noreferrer" class="project-link" title="Open tool">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-description">7-phase Lockheed Martin Kill Chain simulator mapped to 20 MITRE ATT&amp;CK techniques. OSINT module, credential spray dry-run, persistence and lateral movement references, defense gap analysis.</p>
+                    <p class="project-approach"><span class="approach-label">includes:</span> MITRE ATT&amp;CK mini-matrix (T1595–T1562), OSINT simulation, live detection counter, technique-to-tactic mapper</p>
+                    <div class="project-tags">
+                        <span class="tag">red-team</span>
+                        <span class="tag">mitre-att&amp;ck</span>
+                        <span class="tag">kill-chain</span>
+                        <span class="tag">osint</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Defensive / Blue Team -->
+            <div class="project-category">
+                <span class="project-category-label">defensive &amp; blue team</span>
+                <div class="project-category-line"></div>
+            </div>
+
+            <div class="projects-grid" style="margin-bottom: 3rem;">
+
+                <div class="project-card scroll-hidden">
+                    <div class="project-header">
+                        <div class="project-header-inner">
+                            <div class="project-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </div>
+                            <div class="project-header-text">
+                                <h4 class="project-title">HIDS Agent</h4>
+                            </div>
+                        </div>
+                        <a href="https://tools.jasstej.tech/hids/" target="_blank" rel="noopener noreferrer" class="project-link" title="Open tool">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-description">Host-based intrusion detection with SHA-256/SHA-512 file integrity baselines, a 12-rule detection engine mapped to MITRE ATT&amp;CK techniques, and live process monitoring. Three operational modes: baseline, scan, and monitor.</p>
+                    <p class="project-approach"><span class="approach-label">includes:</span> FIM baseline &amp; diff, regex rule engine with severity levels, 24-hour alert trend chart, process anomaly flagging</p>
+                    <div class="project-tags">
+                        <span class="tag">hids</span>
+                        <span class="tag">fim</span>
+                        <span class="tag">log-analysis</span>
+                        <span class="tag">mitre-att&amp;ck</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+
+                <div class="project-card scroll-hidden">
+                    <div class="project-header">
+                        <div class="project-header-inner">
+                            <div class="project-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                </svg>
+                            </div>
+                            <div class="project-header-text">
+                                <h4 class="project-title">Deception-Based Security System</h4>
+                            </div>
+                        </div>
+                        <a href="https://tools.jasstej.tech/deception-defense/" target="_blank" rel="noopener noreferrer" class="project-link" title="Open tool">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-description">SOC honeypot framework that deploys fake credentials, decoy files, and synthetic services as tripwires. Watchdog-monitored with real-time alert feed, threat actor profiling, and webhook integration.</p>
+                    <p class="project-approach"><span class="approach-label">includes:</span> Fake credential generators, watchdog FileSystemEventHandler, 24-bar alert timeline, SOC demo dashboard</p>
+                    <div class="project-tags">
+                        <span class="tag">honeypot</span>
+                        <span class="tag">deception</span>
+                        <span class="tag">blue-team</span>
+                        <span class="tag">alerting</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+
+                <div class="project-card scroll-hidden">
+                    <div class="project-header">
+                        <div class="project-header-inner">
+                            <div class="project-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                                </svg>
+                            </div>
+                            <div class="project-header-text">
+                                <h4 class="project-title">SOAR-Lite</h4>
+                            </div>
+                        </div>
+                        <a href="https://tools.jasstej.tech/soar-lite/" target="_blank" rel="noopener noreferrer" class="project-link" title="Open tool">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-description">Security orchestration engine with JSON playbook execution, alert correlation by IP/asset/pattern, MD5-based deduplication, and 10 pre-built sample incidents. Includes ransomware and brute-force response playbooks.</p>
+                    <p class="project-approach"><span class="approach-label">includes:</span> Playbook step runner (8 action handlers), MTTR metrics, correlation canvas graph, 7-day bar chart, SIEM event feed</p>
+                    <div class="project-tags">
+                        <span class="tag">soar</span>
+                        <span class="tag">playbooks</span>
+                        <span class="tag">automation</span>
+                        <span class="tag">orchestration</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Cloud & AI -->
+            <div class="project-category">
+                <span class="project-category-label">cloud &amp; AI security</span>
+                <div class="project-category-line"></div>
+            </div>
+
+            <div class="projects-grid" style="margin-bottom: 3rem;">
+
+                <div class="project-card scroll-hidden">
+                    <div class="project-header">
+                        <div class="project-header-inner">
+                            <div class="project-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                                </svg>
+                            </div>
+                            <div class="project-header-text">
+                                <h4 class="project-title">Cloud Security Misconfiguration Scanner</h4>
+                            </div>
+                        </div>
+                        <a href="https://tools.jasstej.tech/cloud-scanner/" target="_blank" rel="noopener noreferrer" class="project-link" title="Open tool">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-description">AWS security auditor aligned to 20 CIS Foundations Benchmark controls. Audits IAM policies, S3 bucket exposure, and security group ingress rules for critical port exposure (SSH, RDP, databases).</p>
+                    <p class="project-approach"><span class="approach-label">includes:</span> IAM auditor (7 checks), S3 auditor (6 checks), SG auditor, CIS scorecard grid, remediation accordion, canvas donut chart</p>
+                    <div class="project-tags">
+                        <span class="tag">cloud</span>
+                        <span class="tag">aws</span>
+                        <span class="tag">cis-benchmark</span>
+                        <span class="tag">iam</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+
+                <div class="project-card scroll-hidden">
+                    <div class="project-header">
+                        <div class="project-header-inner">
+                            <div class="project-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                </svg>
+                            </div>
+                            <div class="project-header-text">
+                                <h4 class="project-title">AI-Driven Anomaly Detection System</h4>
+                            </div>
+                        </div>
+                        <a href="https://tools.jasstej.tech/anomaly-detection/" target="_blank" rel="noopener noreferrer" class="project-link" title="Open tool">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-description">Isolation Forest ML model trained on network traffic logs with engineered features: bytes_per_second, log_bytes, hour_of_day, business_hours flag, port category, and connection count per hour.</p>
+                    <p class="project-approach"><span class="approach-label">includes:</span> 200-estimator Isolation Forest, Z-score baseline, anomaly scoring 0–100, CSV upload, canvas time-series chart, event feed</p>
+                    <div class="project-tags">
+                        <span class="tag">machine-learning</span>
+                        <span class="tag">anomaly</span>
+                        <span class="tag">isolation-forest</span>
+                        <span class="tag">scikit-learn</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Malware & Forensics -->
+            <div class="project-category">
+                <span class="project-category-label">malware &amp; forensics</span>
+                <div class="project-category-line"></div>
+            </div>
+
+            <div class="projects-grid" style="margin-bottom: 3rem;">
+
+                <div class="project-card scroll-hidden">
+                    <div class="project-header">
+                        <div class="project-header-inner">
+                            <div class="project-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                </svg>
+                            </div>
+                            <div class="project-header-text">
+                                <h4 class="project-title">Malware Behavior Analysis Framework</h4>
+                            </div>
+                        </div>
+                        <a href="https://tools.jasstej.tech/malware-analysis/" target="_blank" rel="noopener noreferrer" class="project-link" title="Open tool">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-description">Static malware analysis framework with 8 YARA rules covering process injection, ransomware, keyloggers, C2 callbacks, and info stealers. Shannon entropy scoring, PE section parsing, and IOC extraction.</p>
+                    <p class="project-approach"><span class="approach-label">includes:</span> MD5/SHA1/SHA256/SHA512 hashing, string categorization (8 categories), entropy-based packing detection, SubtleCrypto drag-and-drop UI</p>
+                    <div class="project-tags">
+                        <span class="tag">malware</span>
+                        <span class="tag">yara</span>
+                        <span class="tag">static-analysis</span>
+                        <span class="tag">ioc</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+
+                <div class="project-card scroll-hidden">
+                    <div class="project-header">
+                        <div class="project-header-inner">
+                            <div class="project-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                                </svg>
+                            </div>
+                            <div class="project-header-text">
+                                <h4 class="project-title">Digital Forensics &amp; IR Toolkit</h4>
+                            </div>
+                        </div>
+                        <a href="https://tools.jasstej.tech/dfir-toolkit/" target="_blank" rel="noopener noreferrer" class="project-link" title="Open tool">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-description">DFIR platform with evidence timeline construction, chain of custody documentation, volatile artifact collection (processes, network, users, scheduled tasks), auth log and bash history parsing.</p>
+                    <p class="project-approach"><span class="approach-label">includes:</span> Order-of-volatility collector, SHA-256 evidence manifest, CEF-format SIEM events, interactive IR playbook with checkboxes</p>
+                    <div class="project-tags">
+                        <span class="tag">dfir</span>
+                        <span class="tag">forensics</span>
+                        <span class="tag">incident-response</span>
+                        <span class="tag">chain-of-custody</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Simulation & Strategy -->
+            <div class="project-category">
+                <span class="project-category-label">simulation &amp; strategy</span>
+                <div class="project-category-line"></div>
+            </div>
+
+            <div class="projects-grid" style="margin-bottom: 1rem;">
+
+                <div class="project-card project-card-featured scroll-hidden">
+                    <div class="project-header">
+                        <div class="project-header-inner">
+                            <div class="project-icon" style="background:rgba(64,196,99,0.12); border-color:rgba(64,196,99,0.3);">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                                </svg>
+                            </div>
+                            <div class="project-header-text">
+                                <h4 class="project-title">Enterprise Cyber Defense Simulation Platform</h4>
+                            </div>
+                        </div>
+                        <a href="https://tools.jasstej.tech/cyber-defense-sim/" target="_blank" rel="noopener noreferrer" class="project-link" title="Open tool">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-description">Purple team simulation built around the "FinCorp International" APT-41 scenario. Runs a 7-phase kill chain against 8 enterprise assets with 10 configurable security controls and maturity sliders.</p>
+                    <p class="project-approach"><span class="approach-label">includes:</span> Ensemble detection model P = 1 − ∏(1 − Pᵢ), APT evasion (35%), risk scoring (likelihood × impact), SIEM CEF event feed, executive summary canvas ring, MITRE ATT&amp;CK heatmap</p>
+                    <div class="project-tags">
+                        <span class="tag">simulation</span>
+                        <span class="tag">purple-team</span>
+                        <span class="tag">kill-chain</span>
+                        <span class="tag">enterprise</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="footer" style="text-align:center; padding: 2rem 1.5rem;">
+        <p>&copy; 2025 Jasstej Singh.</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
