@@ -716,6 +716,53 @@ section {
     background-color: rgba(22, 27, 34, 0.3);
 }
 
+.project-bar {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--primary);
+    border-radius: 0 0.5rem 0.5rem 0;
+    background: linear-gradient(90deg, rgba(64, 196, 99, 0.08) 0%, rgba(22, 27, 34, 0.7) 65%);
+}
+
+.project-bar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    padding-top: 0.35rem;
+}
+
+.project-bar-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.project-bar-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    line-height: 1;
+    text-decoration: none;
+    color: var(--foreground);
+    border: 1px solid rgba(64, 196, 99, 0.28);
+    background-color: rgba(64, 196, 99, 0.08);
+    border-radius: 999px;
+    padding: 0.45rem 0.65rem;
+    transition: all 0.2s ease;
+}
+
+.project-bar-link:hover {
+    color: var(--primary);
+    border-color: rgba(64, 196, 99, 0.55);
+    background-color: rgba(64, 196, 99, 0.15);
+}
+
 .projects-grid {
     display: grid;
     gap: 1.5rem;
@@ -1344,4 +1391,213 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+/* =====================
+   RESPONSIVE OPTIMIZATION PASS
+   ===================== */
+html,
+body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-size: clamp(0.95rem, 0.35vw + 0.85rem, 1.05rem);
+}
+
+.navbar-container {
+    max-width: min(1200px, 100% - 2rem);
+    padding: 0.75rem clamp(0.75rem, 2.5vw, 1.5rem);
+}
+
+.nav-links-desktop {
+    gap: clamp(0.75rem, 1.8vw, 1.5rem);
+}
+
+.nav-link,
+.nav-dropdown-btn {
+    font-size: clamp(0.7rem, 0.2vw + 0.65rem, 0.78rem);
+}
+
+.hero {
+    min-height: calc(100dvh - 60px);
+    padding: clamp(1rem, 3vw, 2rem);
+}
+
+.hero-content {
+    max-width: min(52rem, 100%);
+}
+
+.terminal-box {
+    padding: clamp(1rem, 2.2vw, 1.5rem);
+}
+
+.terminal-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.terminal-line {
+    font-size: clamp(0.78rem, 0.3vw + 0.72rem, 0.9rem);
+}
+
+.hero-stats {
+    gap: 0.75rem 1rem;
+    padding: clamp(0.85rem, 1.8vw, 1.1rem);
+}
+
+.social-links {
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.6rem 1.05rem;
+}
+
+section {
+    padding: clamp(3.25rem, 8vw, 6rem) clamp(1rem, 4vw, 1.5rem);
+}
+
+.section-container {
+    max-width: min(64rem, 100%);
+}
+
+.section-title {
+    font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+}
+
+.highlights-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+
+#skills {
+    padding: clamp(3.25rem, 8vw, 4rem) 0;
+}
+
+.skills-container {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: clamp(1rem, 2.5vw, 2rem);
+}
+
+.skill-category {
+    padding: clamp(1rem, 2.8vw, 2rem);
+}
+
+.skill-item {
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0.6rem 0;
+}
+
+.projects-grid {
+    grid-template-columns: 1fr;
+}
+
+.project-card {
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.project-title {
+    font-size: clamp(0.82rem, 0.3vw + 0.75rem, 0.92rem);
+}
+
+.cert-card {
+    padding: clamp(1rem, 2.4vw, 1.5rem);
+}
+
+.contact-content {
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    margin-bottom: clamp(2.5rem, 5vw, 5rem);
+}
+
+@media (max-width: 1024px) {
+    .scroll-indicator {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        margin-top: 56px;
+    }
+
+    .hero-actions {
+        gap: 1rem;
+    }
+
+    .hero-stat {
+        width: 100%;
+        font-size: 0.72rem;
+    }
+
+    .cta-buttons {
+        width: 100%;
+    }
+
+    .cta-buttons .btn {
+        width: 100%;
+    }
+
+    .experience-timeline {
+        padding-left: 1.25rem;
+    }
+
+    .timeline-dot {
+        left: -27px;
+    }
+
+    .contact-links {
+        gap: 0.85rem;
+    }
+
+    .project-bar {
+        flex-direction: column;
+        gap: 0.65rem;
+        padding: 0.8rem 0.85rem;
+    }
+
+    .project-bar-label {
+        padding-top: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-logo {
+        font-size: 0.8rem;
+    }
+
+    .nav-links-mobile {
+        padding: 0.8rem 0.9rem 1rem;
+    }
+
+    .terminal-header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .terminal-title {
+        max-width: 165px;
+        margin-left: 0.45rem;
+        font-size: 0.68rem;
+    }
+
+    .project-header {
+        gap: 0.65rem;
+    }
+
+    .project-link {
+        flex-shrink: 0;
+    }
+
+    .contact-input {
+        padding: 0.68rem 0.85rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .hero-content {
+        max-width: 56rem;
+    }
 }
